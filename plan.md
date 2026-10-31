@@ -77,3 +77,31 @@ page again with `LANE_MARKER` unset (the banner reads "no marker set") and uploa
 link. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link no longer shows the lane marker.
+
+## Approved data rules
+
+- Board totals count valid log events, labeled "Events: ok / retry / fail". They are not counts
+  of jobs' current statuses. The 2026-10-28 sample has 10 ok, 4 retry, 1 fail, and one bad line.
+- A job's current status comes from its latest event. "Last recorded error (historical)" is
+  separate and remains available after a successful retry; it does not imply current failure.
+- First/last use chronological timestamps, with file order breaking ties. Keep original
+  timestamp strings and offsets. Owner comes from the latest event, including null.
+- The shared reader result includes sorted rows, bad-line count and valid event counts.
+  Missing files differ from empty files. The shared types are committed before §2 starts.
+- Cleanup waits for the actual review, not just submission (ADR 0003). Public HTML publication,
+  review submission and later marker-free replacement need separate human approvals.
+
+## Issues
+
+The human approved this split. Start dependencies and completion gates differ: §2 workers may
+start at the shared interface commit; their issues close only after integrated checks pass.
+
+| Issue | Source | Start dependency | Completion dependency |
+|---|---|---|---|
+| [#1 Read and aggregate one night's run log](https://github.com/marcengineb/mega-s01e04-rig/issues/1) | §1 | none | reader tests |
+| [#2 Render GET /digest/:night](https://github.com/marcengineb/mega-s01e04-rig/issues/2) | §2a | #1 types | #1 reader |
+| [#3 Expose GET /api/digest/:night](https://github.com/marcengineb/mega-s01e04-rig/issues/3) | §2b | #1 types | #1, #2 parity |
+| [#4 Link each board night to its digest](https://github.com/marcengineb/mega-s01e04-rig/issues/4) | §2c | #1 types | #1, #2 |
+| [#5 Test digest routes and HTML/JSON agreement](https://github.com/marcengineb/mega-s01e04-rig/issues/5) | §2d | #1 types | #1, #2, #3 |
+| [#6 Publish and submit the review preview](https://github.com/marcengineb/mega-s01e04-rig/issues/6) | §3 | #1–#5 | publication and submission approval |
+| [#7 Remove marker after review and archive plan](https://github.com/marcengineb/mega-s01e04-rig/issues/7) | §4 | #6, actual review | replacement approval and verified cleanup |
