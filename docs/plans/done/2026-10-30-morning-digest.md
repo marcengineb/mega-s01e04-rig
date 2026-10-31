@@ -86,8 +86,8 @@ Done when: the preview link no longer shows the lane marker.
 Verified after review and explicit replacement approval: the same public URL
 https://mega-s01e04-preview-engineb.vercel.app/ returns the regenerated page without the marker
 and shows "no marker set" to an anonymous request. The original HTML is retained locally,
-outside git. Deletion of the historical marked hosting deployment awaits separate human
-approval; that separate URL has not been removed.
+outside git. After separate human approval, the historical marked hosting deployment was
+deleted; its URL returns 404. The current public URL remains accessible without its marker.
 
 ## Approved data rules
 
