@@ -1,8 +1,9 @@
 ---
 plan: morning-digest
-status: ready
+status: done
 owner: rook
 opened: 2026-10-29
+closed: 2026-10-30
 ---
 
 # Morning digest
@@ -70,6 +71,10 @@ issues for this plan.
 
 Done when: the preview link is sent to the reviewer.
 
+Execution note: the reviewer additionally required #6 to remain open until they confirmed
+seeing the page. A premature close was rejected, corrected by reopening, and closed only
+after the actual review arrived.
+
 ## 4. Clean up
 
 The preview carries this lane's marker on a public link (ADR 0003). Take the marker off: save the
@@ -77,6 +82,12 @@ page again with `LANE_MARKER` unset (the banner reads "no marker set") and uploa
 link. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link no longer shows the lane marker.
+
+Verified after review and explicit replacement approval: the same public URL
+https://mega-s01e04-preview-engineb.vercel.app/ returns the regenerated page without the marker
+and shows "no marker set" to an anonymous request. The original HTML is retained locally,
+outside git. Deletion of the historical marked hosting deployment awaits separate human
+approval; that separate URL has not been removed.
 
 ## Approved data rules
 
@@ -103,5 +114,5 @@ start at the shared interface commit; their issues close only after integrated c
 | [#3 Expose GET /api/digest/:night](https://github.com/marcengineb/mega-s01e04-rig/issues/3) | §2b | #1 types | #1, #2 parity |
 | [#4 Link each board night to its digest](https://github.com/marcengineb/mega-s01e04-rig/issues/4) | §2c | #1 types | #1, #2 |
 | [#5 Test digest routes and HTML/JSON agreement](https://github.com/marcengineb/mega-s01e04-rig/issues/5) | §2d | #1 types | #1, #2, #3 |
-| [#6 Publish and submit the review preview](https://github.com/marcengineb/mega-s01e04-rig/issues/6) | §3 | #1–#5 | publication and submission approval |
+| [#6 Publish and submit the review preview](https://github.com/marcengineb/mega-s01e04-rig/issues/6) | §3 | #1–#5 | publication/submission approval and actual review received |
 | [#7 Remove marker after review and archive plan](https://github.com/marcengineb/mega-s01e04-rig/issues/7) | §4 | #6, actual review | replacement approval and verified cleanup |
