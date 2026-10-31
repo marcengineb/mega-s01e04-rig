@@ -64,6 +64,8 @@ describe('digest routes', () => {
 
     expect(htmlResponse.status).toBe(200);
     expect(jsonResponse.status).toBe(200);
+    expect(htmlResponse.headers.get('content-type')).toContain('text/html');
+    expect(jsonResponse.headers.get('content-type')).toContain('application/json');
     expect(digest).toEqual({
       night: '2026-10-28',
       rows: [
@@ -86,8 +88,12 @@ describe('digest routes', () => {
     expect(plainText(alpha)).toContain('alpha Ada 2 0 ok temporary outage 2026-10-28T23:40:00-04:00 2026-10-28T23:55:00-04:00');
     expect(plainText(beta)).toContain('beta Lin 5 3 fail current failure 2026-10-28T23:50:00-04:00 2026-10-29T00:20:00-04:00');
     expect(plainText(zeta)).toContain('zeta — 3 3 retry');
-    expect(beta).toMatch(/class="warn"|class='warn'/);
-    expect(zeta).toMatch(/class="warn"|class='warn'/);
+    expect(rows[0]).toContain('<th>Current status</th>');
+    expect(rows[0]).toContain('<th>Last recorded error (historical)</th>');
+    expect(alpha).not.toMatch(/class="warn"|class='warn'/);
+    expect(beta).toContain('<span class="warn">fail</span>');
+    expect(beta).toContain('<span class="warn">3</span>');
+    expect(zeta).toContain('<span class="warn">3</span>');
     expect(alpha).toContain('temporary outage');
     expect(alpha).toContain('ok');
     expect(html).toContain('lane-07');
@@ -139,7 +145,7 @@ describe('digest routes', () => {
     ]);
     expect(html).toContain('valid-job');
     expect(html).toContain('Mina');
-    expect(html).toContain('1');
+    expect(html).toContain('bad lines: 1');
   });
 
   it('escapes untrusted job and error text in HTML while preserving it in JSON', async () => {
